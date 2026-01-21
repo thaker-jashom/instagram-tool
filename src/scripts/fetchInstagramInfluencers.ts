@@ -37,10 +37,9 @@ async function fetchInstagramInfluencers() {
             // Shuffle results to avoid getting same top users every time
             const shuffled = results.sort(() => 0.5 - Math.random());
 
-            for (const result of shuffled) {
+            for (const username of shuffled) {
                 if (totalSaved >= TARGET_COUNT) break;
 
-                const username = result.username || result.user?.username;
                 if (!username) continue;
 
                 // Check if exists

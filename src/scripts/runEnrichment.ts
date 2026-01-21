@@ -43,8 +43,8 @@ async function runEnrichment() {
         // 4️⃣ Location extraction (ARRAY → STRUCTURED)
         const locations = extractLocations(inf.bio);
 
-        const locationCity = locations[0] ?? inf.locationCity;
-        const locationCountry = locations[1] ?? inf.locationCountry ?? 'IN';
+        const locationCity = locations.city ?? inf.locationCity;
+        const locationCountry = locations.country ?? inf.locationCountry ?? 'IN';
 
         // 5️⃣ Persist enrichment (SANITIZED)
         const safeCategories = (categories || [])
