@@ -14,11 +14,11 @@ export class InstagramAdapter {
             `https://${RAPID_HOST}/v1/hashtag`,
             {
                 params: { hashtag, count: 20 },
-                timeout: 30000, // ✅ 30 seconds
+                timeout: 30000,
                 headers: {
                     'X-RapidAPI-Key': this.apiKey,
-                    'X-RapidAPI-Host': RAPID_HOST
-                }
+                    'X-RapidAPI-Host': RAPID_HOST,
+                },
             }
         );
 
@@ -39,17 +39,14 @@ export class InstagramAdapter {
             `https://${RAPID_HOST}/v1/info`,
             {
                 params: { username_or_id_or_url: username },
-                timeout: 30000, // ✅ 30 seconds
+                timeout: 30000,
                 headers: {
                     'X-RapidAPI-Key': this.apiKey,
-                    'X-RapidAPI-Host': RAPID_HOST
-                }
+                    'X-RapidAPI-Host': RAPID_HOST,
+                },
             }
         );
 
         return response.data?.data || null;
     }
 }
-
-export const instagramAdapter = new InstagramAdapter();
-export default instagramAdapter;
