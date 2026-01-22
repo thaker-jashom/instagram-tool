@@ -3,15 +3,23 @@ import Joi from 'joi';
 
 dotenv.config();
 
-const schema = Joi.object({
-    NODE_ENV: Joi.string().valid('development', 'production', 'test').default('development'),
-    PORT: Joi.number().default(3000),
-    DATABASE_URL: Joi.string().required(),
-    REDIS_URL: Joi.string().required(),
-    LOG_LEVEL: Joi.string().valid('error', 'warn', 'info', 'debug').default('info')
-}).unknown();
+const envSchema = Joi.object({
+    NODE_ENV: Joi.string()
+        .valid('development', 'production')
+        .default('development'),
 
-const { value, error } = schema.validate(process.env);
+    PORT: Joi.number().default(3000),
+
+    // 🔴 Database is OPTIONAL for now
+    DATABASE_URL: Joi.string().optional(),
+
+    // 🔴 Redis is OPTIONAL
+    REDIS_URL: Joi.string().optional(),
+
+    // Keep other vars as-is
+}).unknown(true);
+
+const { value, error } = envSchema.validate(process.env);
 
 if (error) {
     throw new Error(`Environment validation error: ${error.message}`);
