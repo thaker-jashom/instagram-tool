@@ -5,9 +5,10 @@ import logger from '../utils/logger';
 // Ensure API Key is available, otherwise log warning
 const apiKey = process.env.YOUTUBE_API_KEY || '';
 if (!apiKey) {
-    logger.warn('YOUTUBE_API_KEY is missing. YouTube discovery will fail or return empty.');
+    logger.warn('YOUTUBE_API_KEY is missing. YouTube discovery will be disabled.');
 }
 
+// Create adapter - it will handle missing API key gracefully
 const youtubeAdapter = new YouTubeAdapter(apiKey);
 
 export const fetchYoutubeInfluencers = async (filters: any) => {

@@ -25,19 +25,27 @@ interface CacheEntry<T> {
 /* ---------- Adapter ---------- */
 
 export class YouTubeAdapter {
-    private youtube: youtube_v3.Youtube;
+    private youtube: youtube_v3.Youtube | null = null;
     private quotaUsed = 0;
     private cache = new Map<string, CacheEntry<any>>();
+    private apiKey: string;
 
     constructor(apiKey: string) {
+        this.apiKey = apiKey;
+        
         if (!apiKey) {
-            throw new Error('YOUTUBE_API_KEY is missing');
+            logger.warn('YOUTUBE_API_KEY is missing. YouTube adapter will not function.');
+            return;
         }
 
         this.youtube = google.youtube({
             version: 'v3',
             auth: apiKey,
         });
+    }
+
+    private isAvailable(): boolean {
+        return this.youtube !== null && !!this.apiKey;
     }
 
     /* ---------- Public Methods ---------- */
@@ -50,6 +58,11 @@ export class YouTubeAdapter {
         keywords: string[],
         maxResults = 25
     ): Promise<YouTubeChannel[]> {
+        if (!this.isAvailable()) {
+            logger.warn('YouTube API key not configured. Returning empty results.');
+            return [];
+        }
+
         const query = `${location} ${keywords.join(' OR ')}`;
         const cacheKey = `search:${query}`;
 
@@ -64,7 +77,7 @@ export class YouTubeAdapter {
         this.trackQuota(100);
 
         // 3️⃣ Call YouTube Search API
-        const response = await this.youtube.search.list({
+        const response = await this.youtube!.search.list({
             part: ['snippet'],
             q: query,
             type: ['channel'],
@@ -92,12 +105,17 @@ export class YouTubeAdapter {
     async getChannelDetails(
         channelIds: string[]
     ): Promise<YouTubeChannel[]> {
+        if (!this.isAvailable()) {
+            logger.warn('YouTube API key not configured. Returning empty results.');
+            return [];
+        }
+
         if (!channelIds.length) return [];
 
         // Channel list costs ~50 units
         this.trackQuota(50);
 
-        const response = await this.youtube.channels.list({
+        const response = await this.youtube!.channels.list({
             part: ['snippet', 'statistics'],
             id: channelIds,
         });
