@@ -50,3 +50,5 @@ export class InstagramAdapter {
         return response.data?.data || null;
     }
 }
+
+export const instagramAdapter = new InstagramAdapter();

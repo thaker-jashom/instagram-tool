@@ -1,5 +1,5 @@
 import 'dotenv/config';
-import instagramAdapter from '../adapters/instagram.adapter';
+import { instagramAdapter } from '../adapters/instagram.adapter';
 import { rapidApiConfig } from '../config/rapidapi';
 import logger from '../utils/logger';
 
