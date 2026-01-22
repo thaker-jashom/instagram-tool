@@ -8,8 +8,14 @@ const start = async () => {
   try {
     // 🟢 Database (optional)
     if (process.env.DATABASE_URL) {
-      await connectDB();
-      logger.info('PostgreSQL connected');
+      try {
+        await connectDB();
+        logger.info('PostgreSQL connected');
+      } catch (error) {
+        logger.error('Failed to connect to PostgreSQL:', error);
+        logger.warn('Continuing without database connection. Some features may not work.');
+        // Don't exit - allow app to start without database
+      }
     } else {
       logger.warn('DATABASE_URL not set — skipping database connection');
     }
