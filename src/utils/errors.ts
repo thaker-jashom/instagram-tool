@@ -9,6 +9,9 @@ export class AppError extends Error {
         this.status = `${statusCode}`.startsWith('4') ? 'fail' : 'error';
         this.isOperational = true;
 
-        Error.captureStackTrace(this, this.constructor);
+        // Error.captureStackTrace is a Node.js V8-specific feature
+        if (Error.captureStackTrace) {
+            Error.captureStackTrace(this, this.constructor);
+        }
     }
 }
