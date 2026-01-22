@@ -1,23 +1,17 @@
 import { Request, Response, NextFunction } from 'express';
-import { youtubeDiscoveryQueue } from '../../queues/youtube.queue';
 
+/**
+ * NOTE: Queue functionality removed - Redis not required by HR document
+ */
 export const startYouTubeDiscovery = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    const { location, keywords } = req.body;
-
-    const job = await youtubeDiscoveryQueue.add('discover', {
-      location,
-      keywords,
-    });
-
-    return res.status(200).json({
-      status: 'success',
-      message: 'YouTube discovery job queued',
-      jobId: job.id,
+    return res.status(503).json({
+      status: 'error',
+      message: 'Discovery feature is currently unavailable (queues disabled)',
     });
   } catch (error) {
     next(error);

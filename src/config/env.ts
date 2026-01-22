@@ -13,9 +13,6 @@ const envSchema = Joi.object({
     // 🔴 Database is OPTIONAL for now
     DATABASE_URL: Joi.string().optional(),
 
-    // 🔴 Redis is OPTIONAL
-    REDIS_URL: Joi.string().optional(),
-
     // Keep other vars as-is
 }).unknown(true);
 
@@ -29,6 +26,5 @@ export const config = {
     env: value.NODE_ENV,
     port: value.PORT,
     databaseUrl: value.DATABASE_URL,
-    redisUrl: value.REDIS_URL,
     logLevel: value.LOG_LEVEL
 };

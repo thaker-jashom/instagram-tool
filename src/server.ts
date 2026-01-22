@@ -14,22 +14,7 @@ const start = async () => {
       logger.warn('DATABASE_URL not set — skipping database connection');
     }
 
-    // 🟢 Redis (optional)
-    if (process.env.REDIS_URL) {
-      const { initRedis } = await import('./config/redis');
-      initRedis();
-    } else {
-      logger.warn('REDIS_URL not set — skipping Redis initialization');
-    }
-
-    // 🟢 Workers (only if Redis exists)
-    if (process.env.REDIS_URL) {
-      await import('./queues/workers/youtube.worker');
-      await import('./queues/workers/instagram.discovery.worker');
-      logger.info('Queue workers started');
-    } else {
-      logger.warn('Queue workers skipped (Redis not available)');
-    }
+    // Redis and queue workers removed - not required by HR document
 
     // 🟢 Start HTTP server no matter what
     app.listen(config.port, () => {
