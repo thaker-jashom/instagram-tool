@@ -16,8 +16,8 @@ const start = async () => {
 
     // 🟢 Redis (optional)
     if (process.env.REDIS_URL) {
-      await import('./config/redis');
-      logger.info('Redis initialized');
+      const { initRedis } = await import('./config/redis');
+      initRedis();
     } else {
       logger.warn('REDIS_URL not set — skipping Redis initialization');
     }
