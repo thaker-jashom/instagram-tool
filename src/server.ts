@@ -2,17 +2,40 @@ import 'dotenv/config'; // MUST BE FIRST
 import app from './app';
 import { config } from './config/env';
 import { connectDB } from './config/database';
-import './queues/workers/youtube.worker';
-import './queues/workers/instagram.discovery.worker';
-import './config/redis';
 import logger from './utils/logger';
 
 const start = async () => {
   try {
-    await connectDB();
+    // 🟢 Database (optional)
+    if (process.env.DATABASE_URL) {
+      await connectDB();
+      logger.info('PostgreSQL connected');
+    } else {
+      logger.warn('DATABASE_URL not set — skipping database connection');
+    }
 
+    // 🟢 Redis (optional)
+    if (process.env.REDIS_URL) {
+      await import('./config/redis');
+      logger.info('Redis initialized');
+    } else {
+      logger.warn('REDIS_URL not set — skipping Redis initialization');
+    }
+
+    // 🟢 Workers (only if Redis exists)
+    if (process.env.REDIS_URL) {
+      await import('./queues/workers/youtube.worker');
+      await import('./queues/workers/instagram.discovery.worker');
+      logger.info('Queue workers started');
+    } else {
+      logger.warn('Queue workers skipped (Redis not available)');
+    }
+
+    // 🟢 Start HTTP server no matter what
     app.listen(config.port, () => {
-      logger.info(`Server running on port ${config.port} in ${config.env} mode`);
+      logger.info(
+        `Server running on port ${config.port} in ${config.env} mode`
+      );
     });
   } catch (error) {
     logger.error('Failed to start server:', error);
