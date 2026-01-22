@@ -8,7 +8,11 @@
         "dev": "nodemon --exec ts-node src/server.ts",
         "build": "tsc",
         "lint": "eslint src/**/*.ts",
-        "format": "prettier --write \"src/**/*.ts\""
+        "format": "prettier --write \"src/**/*.ts\"",
+        "migrate:to-supabase": "ts-node scripts/migrate-to-supabase.ts",
+        "db:push": "prisma db push",
+        "db:generate": "prisma generate",
+        "db:studio": "prisma studio"
     },
     "keywords": [
         "food",
