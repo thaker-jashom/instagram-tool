@@ -12,15 +12,24 @@
         "skipLibCheck": true,
         "forceConsistentCasingInFileNames": true,
         "moduleResolution": "node",
-        "resolveJsonModule": true
+        "resolveJsonModule": true,
+        "noImplicitAny": false
     },
     "include": [
-        "src/**/*"
+        "src/api/**/*",
+        "src/app.ts",
+        "src/server.ts",
+        "src/config/**/*",
+        "src/services/**/*",
+        "src/utils/**/*",
+        "src/adapters/**/*",
+        "src/models/**/*"
     ],
     "exclude": [
         "node_modules",
         "dist",
         "src/scripts",
-        "src/test"
+        "src/test",
+        "src/queues"
     ]
 }
