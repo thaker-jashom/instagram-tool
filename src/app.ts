@@ -21,7 +21,7 @@ app.use('/api/v1/saved-searches', savedSearchRoutes);
 app.use('/api/v1/saved-influencers', savedInfluencerRoutes);
 
 /* HEALTH CHECK */
-app.get('/health', (_req, res) => {
+app.get('/health', (_req: express.Request, res: express.Response) => {
     res.json({ status: 'ok' });
 });
 
