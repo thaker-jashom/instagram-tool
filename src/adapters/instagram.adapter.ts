@@ -7,7 +7,13 @@ export class InstagramAdapter {
 
     constructor() {
         this.apiKey = process.env.RAPIDAPI_KEY || '';
-    }
+      
+        console.log('INSTAGRAM ENV CHECK:', {
+          hasKey: !!process.env.RAPIDAPI_KEY,
+          keyLength: process.env.RAPIDAPI_KEY?.length,
+        });
+      } 
+         
 
     async searchByHashtag(hashtag: string): Promise<string[]> {
         const response = await axios.get(
@@ -50,5 +56,6 @@ export class InstagramAdapter {
         return response.data?.data || null;
     }
 }
+
 
 export const instagramAdapter = new InstagramAdapter();
