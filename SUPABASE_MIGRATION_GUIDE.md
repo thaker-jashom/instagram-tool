@@ -188,3 +188,5 @@ postgresql://postgres:password@db.xxxxx.supabase.co:6543/postgres?sslmode=requir
 2. Check Prisma migration status: `npx prisma migrate status`
 3. Test connection: `npx prisma db pull` (should show your schema)
 
+
+

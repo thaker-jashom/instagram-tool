@@ -54,3 +54,5 @@ if ($LASTEXITCODE -eq 0) {
     Write-Host "   Get it from Supabase Dashboard → Settings → Database → Connection string → Direct connection" -ForegroundColor Yellow
 }
 
+
+

@@ -1,70 +1,46 @@
-import { Request, Response, NextFunction } from 'express';
-import { fetchInstagramInfluencers } from '../../services/instagramFetch.service';
-import { fetchYoutubeInfluencers } from '../../services/youtubeFetch.service';
+import { Request, Response } from 'express';
+import { fetchInstagramInfluencersViaApify } from '../../services/apifyInstagram.service';
 import logger from '../../utils/logger';
 
 export const instagramFetchController = async (
-    req: Request,
-    res: Response,
-    next: NextFunction
+  req: Request,
+  res: Response
 ) => {
-    try {
-        const influencers: any[] = [];
-        const { platform = 'instagram' } = req.body;
+  try {
+    const body = req.body as {
+      hashtag?: string;
+      limit?: number;
+    };
 
-        // Fetch based on selected platform
-        if (platform === 'instagram') {
-            try {
-                const instagramResults = await fetchInstagramInfluencers(req.body);
-                if (Array.isArray(instagramResults)) {
-                    influencers.push(
-                        ...instagramResults.map((inf) => ({
-                            ...inf,
-                            platform: 'instagram'
-                        }))
-                    );
-                }
-            } catch (error: any) {
-                logger.error('Instagram fetch failed:', error.message);
-            }
-        } else if (platform === 'youtube') {
-            try {
-                const youtubeResults = await fetchYoutubeInfluencers(req.body);
-                if (Array.isArray(youtubeResults)) {
-                    influencers.push(
-                        ...youtubeResults.map((inf) => ({
-                            ...inf,
-                            platform: 'youtube'
-                        }))
-                    );
-                }
-            } catch (error: any) {
-                logger.error('YouTube fetch failed:', error.message);
-            }
-        }
+    const hashtag = body.hashtag || '';
+    const limit = body.limit ?? 50;
 
-        // Unified follower filtering
-        const { minFollowers, maxFollowers } = req.body;
-        const min = minFollowers ? Number(minFollowers) : 0;
-        const max = maxFollowers ? Number(maxFollowers) : Infinity;
+    logger.info('Fetching Instagram influencers via Apify');
 
-        const filteredInfluencers = influencers.filter((inf) => {
-            const count = Number(inf.followerCount || 0);
-            return count >= min && count <= max;
-        });
+    const influencers = await fetchInstagramInfluencersViaApify({
+        hashtags: hashtag ? [hashtag] : [],
+        limit,
+      });
 
-        return res.status(200).json({
-            status: 'success',
-            platform: platform,
-            data: {
-                influencers: filteredInfluencers
-            }
-        });
-    } catch (error: any) {
-        return res.status(500).json({
-            status: 'error',
-            message: 'Discovery request failed',
-            reason: error.message || 'Unknown error'
-        });
-    }
+    return res.status(200).json({
+      status: 'success',
+      platform: 'instagram',
+      data: {
+        influencers: influencers ?? [],
+      },
+    });
+  } catch (error: any) {
+    logger.error({
+      message: 'Instagram Apify fetch failed',
+      error: error?.message || error,
+    });
+
+    return res.status(200).json({
+      status: 'success',
+      platform: 'instagram',
+      data: {
+        influencers: [],
+      },
+    });
+  }
 };
