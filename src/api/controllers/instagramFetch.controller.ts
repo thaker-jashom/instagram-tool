@@ -11,52 +11,57 @@ export const instagramFetchController = async (
     try {
         const influencers: any[] = [];
 
-        // 1. Fetch Instagram (Graceful Fail)
+        // 1️⃣ Fetch Instagram
         try {
             const instagramResults = await fetchInstagramInfluencers(req.body);
-            if (instagramResults) {
-                influencers.push(...instagramResults);
+            if (Array.isArray(instagramResults)) {
+                influencers.push(
+                    ...instagramResults.map((inf) => ({
+                        ...inf,
+                        platform: 'instagram'
+                    }))
+                );
             }
         } catch (error: any) {
-            logger.error('Instagram fetch failed (returning empty data for demo):', error.message);
-            // For demo stability: return empty data instead of falling back to YouTube
-            return res.status(200).json({
-                status: 'success',
-                platform: 'instagram',
-                data: { influencers: [] }
-            });
+            logger.error('Instagram fetch failed:', error.message);
         }
 
-        // 2. Fetch YouTube (Graceful Fail) - COMMENTED OUT FOR DEMO
-        // YouTube fallback disabled for demo stability - Instagram only
-        // try {
-        //     const youtubeResults = await fetchYoutubeInfluencers(req.body);
-        //     if (youtubeResults) {
-        //         influencers.push(...youtubeResults);
-        //     }
-        // } catch (error: any) {
-        //     logger.error('YouTube fetch failed:', error.message);
-        // }
+        // 2️⃣ Fetch YouTube
+        try {
+            const youtubeResults = await fetchYoutubeInfluencers(req.body);
+            if (Array.isArray(youtubeResults)) {
+                influencers.push(
+                    ...youtubeResults.map((inf) => ({
+                        ...inf,
+                        platform: 'youtube'
+                    }))
+                );
+            }
+        } catch (error: any) {
+            logger.error('YouTube fetch failed:', error.message);
+        }
 
-        // 3. Unified Filtering (Standardize Follower Range)
+        // 3️⃣ Unified follower filtering
         const { minFollowers, maxFollowers } = req.body;
         const min = minFollowers ? Number(minFollowers) : 0;
         const max = maxFollowers ? Number(maxFollowers) : Infinity;
 
-        const filteredInfluencers = influencers.filter(inf => {
+        const filteredInfluencers = influencers.filter((inf) => {
             const count = Number(inf.followerCount || 0);
             return count >= min && count <= max;
         });
 
-        res.status(200).json({
+        return res.status(200).json({
             status: 'success',
-            platform: 'instagram',
-            data: { influencers: filteredInfluencers }
+            platform: 'mixed',
+            data: {
+                influencers: filteredInfluencers
+            }
         });
     } catch (error: any) {
         return res.status(500).json({
             status: 'error',
-            message: 'Discovery API request failed',
+            message: 'Discovery request failed',
             reason: error.message || 'Unknown error'
         });
     }
