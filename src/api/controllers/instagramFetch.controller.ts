@@ -10,38 +10,40 @@ export const instagramFetchController = async (
 ) => {
     try {
         const influencers: any[] = [];
+        const { platform = 'instagram' } = req.body;
 
-        // 1️⃣ Fetch Instagram
-        try {
-            const instagramResults = await fetchInstagramInfluencers(req.body);
-            if (Array.isArray(instagramResults)) {
-                influencers.push(
-                    ...instagramResults.map((inf) => ({
-                        ...inf,
-                        platform: 'instagram'
-                    }))
-                );
+        // Fetch based on selected platform
+        if (platform === 'instagram') {
+            try {
+                const instagramResults = await fetchInstagramInfluencers(req.body);
+                if (Array.isArray(instagramResults)) {
+                    influencers.push(
+                        ...instagramResults.map((inf) => ({
+                            ...inf,
+                            platform: 'instagram'
+                        }))
+                    );
+                }
+            } catch (error: any) {
+                logger.error('Instagram fetch failed:', error.message);
             }
-        } catch (error: any) {
-            logger.error('Instagram fetch failed:', error.message);
+        } else if (platform === 'youtube') {
+            try {
+                const youtubeResults = await fetchYoutubeInfluencers(req.body);
+                if (Array.isArray(youtubeResults)) {
+                    influencers.push(
+                        ...youtubeResults.map((inf) => ({
+                            ...inf,
+                            platform: 'youtube'
+                        }))
+                    );
+                }
+            } catch (error: any) {
+                logger.error('YouTube fetch failed:', error.message);
+            }
         }
 
-        // 2️⃣ Fetch YouTube
-        try {
-            const youtubeResults = await fetchYoutubeInfluencers(req.body);
-            if (Array.isArray(youtubeResults)) {
-                influencers.push(
-                    ...youtubeResults.map((inf) => ({
-                        ...inf,
-                        platform: 'youtube'
-                    }))
-                );
-            }
-        } catch (error: any) {
-            logger.error('YouTube fetch failed:', error.message);
-        }
-
-        // 3️⃣ Unified follower filtering
+        // Unified follower filtering
         const { minFollowers, maxFollowers } = req.body;
         const min = minFollowers ? Number(minFollowers) : 0;
         const max = maxFollowers ? Number(maxFollowers) : Infinity;
@@ -53,7 +55,7 @@ export const instagramFetchController = async (
 
         return res.status(200).json({
             status: 'success',
-            platform: 'mixed',
+            platform: platform,
             data: {
                 influencers: filteredInfluencers
             }

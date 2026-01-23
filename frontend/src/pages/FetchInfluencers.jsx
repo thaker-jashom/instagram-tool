@@ -4,6 +4,7 @@ import Navbar from '../components/Navbar';
 
 const FetchInfluencers = () => {
     const [formData, setFormData] = useState({
+        platform: 'instagram',
         hashtags: '',
         minFollowers: '',
         maxFollowers: '',
@@ -46,6 +47,7 @@ const FetchInfluencers = () => {
         setLoading(true);
         try {
             const payload = {
+                platform: formData.platform,
                 hashtags: getHashtagsArray(formData.hashtags),
                 minFollowers: formData.minFollowers ? parseInt(formData.minFollowers) : undefined,
                 maxFollowers: formData.maxFollowers ? parseInt(formData.maxFollowers) : undefined,
@@ -119,6 +121,17 @@ const FetchInfluencers = () => {
                     {error && <div className="error-message">{error}</div>}
 
                     <form onSubmit={handleFetch}>
+                        <div className="form-group">
+                            <label>Platform</label>
+                            <select
+                                value={formData.platform}
+                                onChange={(e) => setFormData({ ...formData, platform: e.target.value })}
+                            >
+                                <option value="instagram">Instagram</option>
+                                <option value="youtube">YouTube</option>
+                            </select>
+                        </div>
+
                         <div className="form-group">
                             <label>Hashtags (required)</label>
                             <input
