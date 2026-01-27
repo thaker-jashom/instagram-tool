@@ -49,10 +49,10 @@ export const loginController = async (req: Request, res: Response) => {
 
         const token = jwt.sign(
             { userId: user.id },
-            process.env.JWT_SECRET as string,
-            { expiresIn: '1d' }
-        );
-
+            process.env.JWT_SECRET!,
+            { expiresIn: '7d' } 
+          );
+          
         console.log('✅ LOGIN SUCCESS');
 
         return res.status(200).json({
