@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { fetchInstagramInfluencers } from '../../services/instagramFetch.service';
+// Instagram/Apify imports removed - YouTube-only flow
 import { fetchYoutubeInfluencers } from '../../services/youtubeFetch.service';
 import logger from '../../utils/logger';
 
@@ -8,33 +8,35 @@ export const instagramFetchController = async (
   res: Response
 ) => {
   try {
-    const { platform = 'youtube' } = req.body;
-
+    // Always fetch YouTube influencers - platform parameter ignored
+    logger.info('Fetching YouTube influencers');
     let influencers: any[] = [];
 
-    if (platform === 'instagram') {
-      try {
-        logger.info('Fetching Instagram influencers');
-        influencers = await fetchInstagramInfluencers(req.body);
-      } catch (err: any) {
-        logger.error('Instagram fetch failed', err.message);
-      }
+    try {
+      influencers = await fetchYoutubeInfluencers(req.body);
+    } catch (err: any) {
+      logger.error('YouTube fetch failed', err.message);
+      return res.status(500).json({
+        status: 'error',
+        message: 'YouTube fetch failed',
+      });
     }
 
-    if (platform === 'youtube') {
-      try {
-        logger.info('Fetching YouTube influencers');
-        influencers = await fetchYoutubeInfluencers(req.body);
-      } catch (err: any) {
-        logger.error('YouTube fetch failed', err.message);
-      }
-    }
+    // Apply follower filtering after fetch
+    const min = Number(req.body.minFollowers || 0);
+    const max = Number(req.body.maxFollowers || Infinity);
 
+    influencers = influencers.filter((i: any) =>
+      Number(i.followerCount || 0) >= min &&
+      Number(i.followerCount || 0) <= max
+    );
+
+    // Return response in required structure
     return res.status(200).json({
       status: 'success',
-      platform,
+      platform: 'youtube',
       data: {
-        influencers: influencers || [],
+        influencers
       },
     });
   } catch (error: any) {

@@ -22,6 +22,10 @@ const start = async () => {
 
     // Redis and queue workers removed - not required by HR document
 
+    // 🟢 Log environment variables (masked for security)
+    const youtubeKeyLength = process.env.YOUTUBE_API_KEY?.length || 0;
+    logger.info(`YOUTUBE_API_KEY loaded: ${youtubeKeyLength > 0 ? `Yes (length: ${youtubeKeyLength})` : 'No'}`);
+
     // 🟢 Start HTTP server no matter what
     app.listen(config.port, () => {
       logger.info(
