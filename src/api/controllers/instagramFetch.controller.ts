@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
-import { fetchInstagramInfluencersViaApify } from '../../services/apifyInstagram.service';
+import { fetchInstagramInfluencers } from '../../services/instagramFetch.service';
+import { fetchYoutubeInfluencers } from '../../services/youtubeFetch.service';
 import logger from '../../utils/logger';
 
 export const instagramFetchController = async (
@@ -7,40 +8,40 @@ export const instagramFetchController = async (
   res: Response
 ) => {
   try {
-    const body = req.body as {
-      hashtag?: string;
-      limit?: number;
-    };
+    const { platform = 'youtube' } = req.body;
 
-    const hashtag = body.hashtag || '';
-    const limit = body.limit ?? 50;
+    let influencers: any[] = [];
 
-    logger.info('Fetching Instagram influencers via Apify');
+    if (platform === 'instagram') {
+      try {
+        logger.info('Fetching Instagram influencers');
+        influencers = await fetchInstagramInfluencers(req.body);
+      } catch (err: any) {
+        logger.error('Instagram fetch failed', err.message);
+      }
+    }
 
-    const influencers = await fetchInstagramInfluencersViaApify({
-        hashtags: hashtag ? [hashtag] : [],
-        limit,
-      });
+    if (platform === 'youtube') {
+      try {
+        logger.info('Fetching YouTube influencers');
+        influencers = await fetchYoutubeInfluencers(req.body);
+      } catch (err: any) {
+        logger.error('YouTube fetch failed', err.message);
+      }
+    }
 
     return res.status(200).json({
       status: 'success',
-      platform: 'instagram',
+      platform,
       data: {
-        influencers: influencers ?? [],
+        influencers: influencers || [],
       },
     });
   } catch (error: any) {
-    logger.error({
-      message: 'Instagram Apify fetch failed',
-      error: error?.message || error,
-    });
-
-    return res.status(200).json({
-      status: 'success',
-      platform: 'instagram',
-      data: {
-        influencers: [],
-      },
+    logger.error('Discovery API failed', error.message);
+    return res.status(500).json({
+      status: 'error',
+      message: 'Discovery failed',
     });
   }
 };
