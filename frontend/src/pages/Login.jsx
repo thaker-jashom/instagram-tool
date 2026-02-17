@@ -25,21 +25,65 @@ const Login = () => {
         }
     };
 
+    const containerStyle = {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        minHeight: '100vh',
+        padding: '20px'
+    };
+
+    const cardStyle = {
+        width: '100%',
+        maxWidth: '420px',
+        background: 'var(--bg-secondary)',
+        border: '1px solid var(--border)',
+        borderRadius: '16px',
+        padding: '40px',
+        boxShadow: 'var(--shadow-xl)'
+    };
+
+    const titleStyle = {
+        marginBottom: '8px',
+        textAlign: 'center',
+        fontSize: '1.8rem',
+        fontWeight: '600',
+        color: 'var(--text-primary)',
+        letterSpacing: '-0.5px'
+    };
+
+    const subtitleStyle = {
+        textAlign: 'center',
+        color: 'var(--text-muted)',
+        fontSize: '0.9rem',
+        marginBottom: '32px'
+    };
+
+    const accentLineStyle = {
+        height: '3px',
+        background: 'linear-gradient(90deg, var(--gold) 0%, transparent 100%)',
+        marginBottom: '32px',
+        borderRadius: '2px'
+    };
+
     return (
-        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh', background: '#f8fafc' }}>
-            <div className="card" style={{ width: '100%', maxWidth: '400px' }}>
-                <h2 style={{ marginBottom: '20px', textAlign: 'center' }}>Login</h2>
+        <div style={containerStyle}>
+            <div style={cardStyle}>
+                <h2 style={titleStyle}>Welcome Back</h2>
+                <p style={subtitleStyle}>Sign in to your account</p>
+                <div style={accentLineStyle}></div>
 
                 {error && <div className="error-message">{error}</div>}
 
                 <form onSubmit={handleSubmit}>
                     <div className="form-group">
-                        <label>Email</label>
+                        <label>Email Address</label>
                         <input
                             type="email"
                             required
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
+                            placeholder="Enter your email"
                         />
                     </div>
 
@@ -50,16 +94,17 @@ const Login = () => {
                             required
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
+                            placeholder="Enter your password"
                         />
                     </div>
 
                     <button
                         type="submit"
                         className="btn-primary"
-                        style={{ width: '100%' }}
+                        style={{ width: '100%', marginTop: '8px', padding: '12px' }}
                         disabled={loading}
                     >
-                        {loading ? 'Logging in...' : 'Login'}
+                        {loading ? 'Signing in...' : 'Sign In'}
                     </button>
                 </form>
             </div>

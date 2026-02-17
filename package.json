@@ -9,10 +9,11 @@
         "build": "tsc",
         "lint": "eslint src/**/*.ts",
         "format": "prettier --write \"src/**/*.ts\"",
-        "migrate:to-supabase": "ts-node scripts/migrate-to-supabase.ts",
         "db:push": "prisma db push",
         "db:generate": "prisma generate",
-        "db:studio": "prisma studio"
+        "db:studio": "prisma studio",
+        "create:user": "ts-node src/scripts/createUser.ts",
+        "export:csv": "ts-node src/scripts/exportInfluencersToCsv.ts"
     },
     "keywords": [
         "food",

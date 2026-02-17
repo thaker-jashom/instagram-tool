@@ -1,12 +1,35 @@
 :root {
-  --primary-color: #2563eb;
-  --primary-hover: #1d4ed8;
-  --bg-color: #f8fafc;
-  --text-color: #1e293b;
-  --border-color: #e2e8f0;
-  --white: #ffffff;
-  --error: #ef4444;
-  --success: #22c55e;
+  /* Premium Color Palette */
+  --primary: #1a1a2e;           /* Deep Navy - Primary brand color */
+  --secondary: #16213e;         /* Dark Blue - Secondary elements */
+  --accent: #0f3460;            /* Rich Blue - Accent color */
+  --gold: #c9a961;              /* Muted Gold - Premium highlights */
+  
+  /* Backgrounds */
+  --bg-primary: #0a0e1a;        /* Very Dark Blue - Main background */
+  --bg-secondary: #141824;      /* Dark Blue Gray - Cards background */
+  --bg-tertiary: #1e2433;       /* Lighter Dark - Elevated elements */
+  
+  /* Text Colors */
+  --text-primary: #e8eaed;      /* Light Gray - Primary text */
+  --text-secondary: #9ca3af;    /* Medium Gray - Secondary text */
+  --text-muted: #6b7280;        /* Muted Gray - Tertiary text */
+  
+  /* Borders & Dividers */
+  --border: #2d3748;            /* Subtle border */
+  --divider: #374151;           /* Divider lines */
+  
+  /* Status Colors */
+  --success: #10b981;           /* Green - Success states */
+  --error: #ef4444;             /* Red - Error states */
+  --warning: #f59e0b;           /* Amber - Warning states */
+  --info: #3b82f6;              /* Blue - Info states */
+  
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.6);
 }
 
 * {
@@ -16,86 +39,217 @@
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-  background-color: var(--bg-color);
-  color: var(--text-color);
-  line-height: 1.5;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Inter", Helvetica, Arial, sans-serif;
+  background: linear-gradient(135deg, var(--bg-primary) 0%, var(--secondary) 100%);
+  color: var(--text-primary);
+  line-height: 1.6;
+  min-height: 100vh;
 }
 
 button {
   cursor: pointer;
   border: none;
-  font-size: 1rem;
-  border-radius: 4px;
-  transition: opacity 0.2s;
+  font-size: 0.95rem;
+  font-weight: 500;
+  border-radius: 6px;
+  letter-spacing: 0.3px;
 }
 
 button:disabled {
-  opacity: 0.6;
+  opacity: 0.5;
   cursor: not-allowed;
 }
 
 .container {
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
-  padding: 20px;
+  padding: 24px;
 }
 
 .card {
-  background: var(--white);
-  border-radius: 8px;
-  padding: 20px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-  margin-bottom: 20px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: var(--shadow-md);
+  margin-bottom: 24px;
 }
 
 .btn-primary {
-  background-color: var(--primary-color);
-  color: white;
-  padding: 8px 16px;
+  background: linear-gradient(135deg, var(--accent) 0%, var(--primary) 100%);
+  color: var(--text-primary);
+  padding: 10px 20px;
+  font-weight: 600;
+  box-shadow: var(--shadow-sm);
 }
 
-.btn-primary:hover {
-  background-color: var(--primary-hover);
+.btn-primary:disabled {
+  background: var(--bg-tertiary);
+  color: var(--text-muted);
 }
 
 .form-group {
-  margin-bottom: 15px;
+  margin-bottom: 18px;
 }
 
 .form-group label {
   display: block;
-  margin-bottom: 5px;
+  margin-bottom: 8px;
   font-weight: 500;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  letter-spacing: 0.3px;
 }
 
-.form-group input, .form-group select {
+.form-group input,
+.form-group select,
+.form-group textarea {
   width: 100%;
-  padding: 8px;
-  border: 1px solid var(--border-color);
-  border-radius: 4px;
+  padding: 12px 16px;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text-primary);
+  font-size: 0.95rem;
+}
+
+.form-group input::placeholder {
+  color: var(--text-muted);
 }
 
 .error-message {
   color: var(--error);
-  background-color: #fee2e2;
-  padding: 10px;
-  border-radius: 4px;
-  margin-bottom: 15px;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  font-size: 0.9rem;
+}
+
+.success-message {
+  color: var(--success);
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  font-size: 0.9rem;
 }
 
 table {
   width: 100%;
   border-collapse: collapse;
+  background: var(--bg-secondary);
+  border-radius: 8px;
+  overflow: hidden;
 }
 
-th, td {
-  padding: 12px;
+th,
+td {
+  padding: 16px;
   text-align: left;
-  border-bottom: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border);
 }
 
 th {
-  background-color: #f1f5f9;
+  background: var(--bg-tertiary);
   font-weight: 600;
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+td {
+  color: var(--text-primary);
+  font-size: 0.95rem;
+}
+
+tr:last-child td {
+  border-bottom: none;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--text-primary);
+  font-weight: 600;
+  letter-spacing: -0.5px;
+}
+
+h1 {
+  font-size: 2rem;
+  margin-bottom: 8px;
+}
+
+h2 {
+  font-size: 1.5rem;
+  margin-bottom: 16px;
+}
+
+h3 {
+  font-size: 1.25rem;
+  margin-bottom: 12px;
+}
+
+h4 {
+  font-size: 1.1rem;
+  margin-bottom: 10px;
+}
+
+p {
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+
+a {
+  color: var(--gold);
+  text-decoration: none;
+}
+
+/* Premium accent line */
+.accent-line {
+  height: 3px;
+  background: linear-gradient(90deg, var(--gold) 0%, transparent 100%);
+  margin: 20px 0;
+}
+
+/* Results section styling */
+.results-section {
+  margin-top: 32px;
+}
+
+.results-section h3 {
+  color: var(--text-primary);
+  margin-bottom: 20px;
+  font-size: 1.3rem;
+}
+
+/* Grid layout for cards */
+.grid {
+  display: grid;
+  gap: 20px;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-primary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--divider);
 }

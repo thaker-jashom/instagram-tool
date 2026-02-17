@@ -5,6 +5,8 @@ import authRoutes from './api/routes/auth.routes';
 import savedSearchRoutes from './api/routes/savedSearch.routes';
 import savedInfluencerRoutes from './api/routes/savedInfluencer.routes';
 import influencerRoutes from './api/routes/influencers.routes';
+import instagramFetchRoutes from './api/routes/instagramFetch.routes';
+import youtubeFetchRoutes from './api/routes/youtubeFetch.routes';
 
 const app = express();
 
@@ -14,11 +16,12 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(cors());
 
-/* 🔥 ROUTES (AFTER body parsers) */
 app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/influencers', influencerRoutes);
 app.use('/api/v1/saved-searches', savedSearchRoutes);
 app.use('/api/v1/saved-influencers', savedInfluencerRoutes);
+app.use('/api/v1/instagram', instagramFetchRoutes);
+app.use('/api/v1/youtube', youtubeFetchRoutes);
 
 /* ROOT ROUTE */
 app.get('/', (_req: express.Request, res: express.Response) => {
@@ -31,7 +34,9 @@ app.get('/', (_req: express.Request, res: express.Response) => {
             auth: '/api/v1/auth',
             influencers: '/api/v1/influencers',
             savedSearches: '/api/v1/saved-searches',
-            savedInfluencers: '/api/v1/saved-influencers'
+            savedInfluencers: '/api/v1/saved-influencers',
+            instagram: '/api/v1/instagram',
+            youtube: '/api/v1/youtube'
         }
     });
 });

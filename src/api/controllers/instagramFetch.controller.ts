@@ -1,6 +1,5 @@
 import { Request, Response } from 'express';
-// Instagram/Apify imports removed - YouTube-only flow
-import { fetchYoutubeInfluencers } from '../../services/youtubeFetch.service';
+import { fetchInstagramInfluencers } from '../../services/instagramFetch.service';
 import logger from '../../utils/logger';
 
 export const instagramFetchController = async (
@@ -8,21 +7,20 @@ export const instagramFetchController = async (
   res: Response
 ) => {
   try {
-    // Always fetch YouTube influencers - platform parameter ignored
-    logger.info('Fetching YouTube influencers');
+    logger.info('Fetching Instagram influencers via RapidAPI', req.body);
     let influencers: any[] = [];
 
     try {
-      influencers = await fetchYoutubeInfluencers(req.body);
+      influencers = await fetchInstagramInfluencers(req.body);
     } catch (err: any) {
-      logger.error('YouTube fetch failed', err.message);
+      logger.error('Instagram fetch via Apify failed', err.message);
       return res.status(500).json({
         status: 'error',
-        message: 'YouTube fetch failed',
+        message: 'Instagram fetch failed: ' + err.message,
       });
     }
 
-    // Apply follower filtering after fetch
+    // Apply follower filtering after fetch (additional safety check)
     const min = Number(req.body.minFollowers || 0);
     const max = Number(req.body.maxFollowers || Infinity);
 
@@ -34,13 +32,13 @@ export const instagramFetchController = async (
     // Return response in required structure
     return res.status(200).json({
       status: 'success',
-      platform: 'youtube',
+      platform: 'instagram',
       data: {
         influencers
       },
     });
   } catch (error: any) {
-    logger.error('Discovery API failed', error.message);
+    logger.error('Instagram Discovery API failed', error.message);
     return res.status(500).json({
       status: 'error',
       message: 'Discovery failed',

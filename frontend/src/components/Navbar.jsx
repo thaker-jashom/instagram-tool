@@ -7,25 +7,75 @@ const Navbar = () => {
     const handleLogout = () => {
         localStorage.removeItem('token');
         navigate('/login');
-      };
+    };
+
+    const navStyle = {
+        background: 'var(--bg-secondary)',
+        borderBottom: '1px solid var(--border)',
+        padding: '1.2rem 0',
+        marginBottom: '2rem',
+        boxShadow: 'var(--shadow-sm)'
+    };
+
+    const containerStyle = {
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center'
+    };
+
+    const titleStyle = {
+        fontSize: '1.4rem',
+        fontWeight: '600',
+        color: 'var(--text-primary)',
+        letterSpacing: '-0.5px',
+        display: 'flex',
+        alignItems: 'center',
+        gap: '10px'
+    };
+
+    const accentDot = {
+        width: '8px',
+        height: '8px',
+        background: 'var(--gold)',
+        borderRadius: '50%'
+    };
+
+    const linksContainer = {
+        display: 'flex',
+        gap: '32px',
+        alignItems: 'center'
+    };
+
+    const linkStyle = {
+        textDecoration: 'none',
+        color: 'var(--text-secondary)',
+        fontSize: '0.95rem',
+        fontWeight: '500',
+        letterSpacing: '0.3px'
+    };
+
+    const logoutButtonStyle = {
+        background: 'transparent',
+        color: 'var(--error)',
+        border: '1px solid var(--error)',
+        padding: '8px 16px',
+        borderRadius: '6px',
+        fontSize: '0.9rem',
+        fontWeight: '500'
+    };
 
     return (
-        <nav style={{ background: '#fff', borderBottom: '1px solid #e2e8f0', padding: '1rem 0', marginBottom: '2rem' }}>
-            <div className="container" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <h1 style={{ fontSize: '1.25rem', fontWeight: 'bold' }}>Influencer Dashboard</h1>
-                <div style={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
-                    <Link to="/fetch-influencers" style={{ textDecoration: 'none', color: '#64748b' }}>Search</Link>
-                    <Link to="/saved-searches" style={{ textDecoration: 'none', color: '#64748b' }}>Saved Searches</Link>
-                    <Link to="/saved-influencers" style={{ textDecoration: 'none', color: '#64748b' }}>Saved Influencers</Link>
-                    <button
-                        onClick={handleLogout}
-                        style={{
-                            background: 'transparent',
-                            color: '#ef4444',
-                            border: '1px solid #ef4444',
-                            padding: '6px 12px'
-                        }}
-                    >
+        <nav style={navStyle}>
+            <div className="container" style={containerStyle}>
+                <h1 style={titleStyle}>
+                    <span style={accentDot}></span>
+                    Influencer Dashboard
+                </h1>
+                <div style={linksContainer}>
+                    <Link to="/fetch-influencers" style={linkStyle}>Search</Link>
+                    <Link to="/saved-searches" style={linkStyle}>Saved Searches</Link>
+                    <Link to="/saved-influencers" style={linkStyle}>Saved Influencers</Link>
+                    <button onClick={handleLogout} style={logoutButtonStyle}>
                         Logout
                     </button>
                 </div>

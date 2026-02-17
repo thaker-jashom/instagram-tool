@@ -4,7 +4,7 @@ import Navbar from '../components/Navbar';
 
 const FetchInfluencers = () => {
     const [formData, setFormData] = useState({
-        platform: 'instagram',
+        platform: 'youtube', // Hardcoded to YouTube-only
         hashtags: '',
         minFollowers: '',
         maxFollowers: '',
@@ -59,7 +59,12 @@ const FetchInfluencers = () => {
 
             console.log('Fetch Payload:', payload);
 
-            const response = await api.post('/influencers/fetch', payload);
+            // Dynamically choose endpoint
+            const endpoint = formData.platform === 'instagram'
+                ? '/instagram/fetch'
+                : '/youtube/fetch';
+
+            const response = await api.post(endpoint, payload);
             console.log('Fetch Response:', response.data);
 
             setResults(response.data.data.influencers || []);
@@ -126,9 +131,10 @@ const FetchInfluencers = () => {
                             <select
                                 value={formData.platform}
                                 onChange={(e) => setFormData({ ...formData, platform: e.target.value })}
+                                style={{ width: '100%', padding: '8px', borderRadius: '4px', border: '1px solid #ddd' }}
                             >
-                                <option value="instagram">Instagram</option>
                                 <option value="youtube">YouTube</option>
+                                <option value="instagram">Instagram</option>
                             </select>
                         </div>
 
@@ -136,7 +142,7 @@ const FetchInfluencers = () => {
                             <label>Hashtags (required)</label>
                             <input
                                 type="text"
-                                placeholder="e.g. #food, #mumbai"
+                                placeholder={formData.platform === 'youtube' ? "e.g. food, mumbai (keywords)" : "e.g. #food, #mumbai (hashtags)"}
                                 value={formData.hashtags}
                                 onChange={(e) => setFormData({ ...formData, hashtags: e.target.value })}
                             />
@@ -181,7 +187,7 @@ const FetchInfluencers = () => {
                         </div>
 
                         <button type="submit" className="btn-primary" disabled={loading}>
-                            {loading ? 'Searching...' : 'Search'}
+                            {loading ? `Searching ${formData.platform}...` : `Search ${formData.platform}`}
                         </button>
 
                         {results.length > 0 && (
