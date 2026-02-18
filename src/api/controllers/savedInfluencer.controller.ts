@@ -90,3 +90,49 @@ export const getSavedInfluencers = async (
     });
   }
 };
+
+/**
+ * DELETE /api/v1/saved-influencers/:influencerId
+ */
+export const deleteSavedInfluencer = async (
+  req: Request & { user?: { userId: string } },
+  res: Response
+) => {
+  try {
+    const userId = req.user?.userId;
+    const { influencerId } = req.params;
+
+    if (!userId) {
+      return res.status(401).json({
+        status: 'error',
+        message: 'Unauthorized'
+      });
+    }
+
+    // Delete the saved influencer record
+    const deleted = await prisma.savedInfluencer.deleteMany({
+      where: {
+        userId,
+        influencerId
+      }
+    });
+
+    if (deleted.count === 0) {
+      return res.status(404).json({
+        status: 'error',
+        message: 'Saved influencer not found'
+      });
+    }
+
+    return res.status(200).json({
+      status: 'success',
+      message: 'Influencer removed successfully'
+    });
+  } catch (error) {
+    console.error('deleteSavedInfluencer error:', error);
+    return res.status(500).json({
+      status: 'error',
+      message: 'Failed to remove influencer'
+    });
+  }
+};

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import Login from './pages/Login';
+import Register from './pages/Register';
 import FetchInfluencers from './pages/FetchInfluencers';
 import SavedSearches from './pages/SavedSearches';
 import SavedInfluencers from './pages/SavedInfluencers';
@@ -10,6 +11,7 @@ function App() {
   return (
     <Routes>
       <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
 
       <Route element={<ProtectedRoute />}>
         <Route path="/fetch-influencers" element={<FetchInfluencers />} />
