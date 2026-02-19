@@ -199,7 +199,7 @@ const SavedInfluencers = () => {
                                             textTransform: 'uppercase',
                                             letterSpacing: '0.5px'
                                         }}>
-                                            Posts
+                                            {inf.platform === 'YOUTUBE' ? 'Videos' : 'Posts'}
                                         </p>
                                         <p style={{
                                             fontSize: '1.4rem',

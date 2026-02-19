@@ -893,7 +893,7 @@ const FetchInfluencers = () => {
                                                 textTransform: 'uppercase',
                                                 letterSpacing: '1px',
                                                 fontWeight: '700'
-                                            }}>Posts</p>
+                                            }}>{formData.platform === 'youtube' ? 'Videos' : 'Posts'}</p>
                                             <p style={{
                                                 fontSize: '1.75rem',
                                                 fontWeight: '800',

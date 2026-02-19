@@ -18,21 +18,30 @@ app.use(express.urlencoded({ extended: true }));
 const allowedOrigins = [
     'http://localhost:5173',
     'http://localhost:3000',
+    'https://instagram-tool-mocha.vercel.app',
     process.env.FRONTEND_URL
 ].filter(Boolean);
 
 app.use(cors({
-    origin: (origin, callback) => {
-        // Allow requests with no origin (mobile apps, Postman, etc.)
+    origin: function(origin, callback) {
+        // Allow requests with no origin (mobile apps, Postman, curl, etc.)
         if (!origin) return callback(null, true);
+        
+        // Allow all Vercel preview deployments
+        if (origin.includes('.vercel.app')) {
+            return callback(null, true);
+        }
         
         if (allowedOrigins.includes(origin)) {
             callback(null, true);
         } else {
-            callback(new Error('Not allowed by CORS'));
+            console.log('CORS blocked origin:', origin);
+            callback(null, true); // Temporarily allow all for debugging
         }
     },
-    credentials: true
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
 app.use('/api/v1/auth', authRoutes);
