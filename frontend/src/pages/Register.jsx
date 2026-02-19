@@ -23,13 +23,6 @@ function Register() {
   const handleChange = (e) => {
     const { name, value } = e.target;
     
-    // For email, check if user typed uppercase and show warning
-    if (name === 'email' && value !== value.toLowerCase()) {
-      setErrors(prev => ({ ...prev, email: 'Email will be converted to lowercase' }));
-    } else if (name === 'email' && errors.email === 'Email will be converted to lowercase') {
-      setErrors(prev => ({ ...prev, email: '' }));
-    }
-    
     // Convert email to lowercase automatically
     const processedValue = name === 'email' ? value.toLowerCase() : value;
     
@@ -38,7 +31,7 @@ function Register() {
       [name]: processedValue
     }));
     
-    if (errors[name] && errors[name] !== 'Email will be converted to lowercase') {
+    if (errors[name]) {
       setErrors(prev => ({ ...prev, [name]: '' }));
     }
     if (apiError) {
