@@ -103,26 +103,9 @@ function Register() {
 
   return (
     <>
-      <div style={{
-        display: 'flex',
-        minHeight: '100vh',
-        maxHeight: '100vh',
-        height: '100vh',
-        background: 'var(--bg-primary)',
-        overflow: 'hidden',
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0
-      }}>
+      <div className="auth-split-container">
         {/* Left Side - Main Image */}
-        <div style={{
-          flex: 1,
-          position: 'relative',
-          overflow: 'hidden',
-          background: '#1a1f2e'
-        }}>
+        <div className="auth-image-side">
           <img 
             src="/register-image.jpg" 
             alt="Food Influencer" 
@@ -134,7 +117,6 @@ function Register() {
               display: 'block'
             }} 
           />
-          {/* Optional overlay */}
           <div style={{
             position: 'absolute',
             top: 0,
@@ -147,53 +129,13 @@ function Register() {
         </div>
 
         {/* Right Side - Register Form with Background */}
-        <div style={{
-          flex: 1,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          padding: '2rem',
-          position: 'relative',
-          overflow: 'hidden'
-        }}>
-          {/* Background Image */}
-          <div style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            zIndex: 0
-          }}>
-            <img 
-              src="/register-bg.jpg" 
-              alt="Background" 
-              style={{ 
-                width: '100%', 
-                height: '100%', 
-                objectFit: 'cover',
-                objectPosition: 'center',
-                opacity: 0.35
-              }} 
-            />
+        <div className="auth-form-side">
+          <div className="auth-bg-image">
+            <img src="/register-bg.jpg" alt="Background" />
           </div>
 
-          {/* Form Container */}
-          <div style={{
-            width: '100%',
-            maxWidth: '440px',
-            position: 'relative',
-            zIndex: 1,
-            margin: '0 auto'
-          }}>
-            <div style={{
-              background: 'var(--bg-secondary)',
-              border: '1px solid var(--border)',
-              borderRadius: '14px',
-              padding: '1.5rem',
-              boxShadow: 'var(--shadow-xl)',
-              backdropFilter: 'blur(10px)'
-            }}>
+          <div className="auth-form-container">
+            <div className="auth-form-card">
               <div style={{
                 textAlign: 'center',
                 marginBottom: '1.25rem'

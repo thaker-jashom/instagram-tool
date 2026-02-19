@@ -5,6 +5,7 @@ import api from '../api/axios';
 const Navbar = () => {
     const navigate = useNavigate();
     const [isProfileOpen, setIsProfileOpen] = useState(false);
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
 
@@ -52,35 +53,20 @@ const Navbar = () => {
 
     return (
         <>
-            <nav style={{
-                background: 'var(--bg-secondary)',
-                borderBottom: '1px solid var(--border)',
-                padding: '0.75rem 2rem',
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                boxShadow: 'var(--shadow-sm)',
-                height: '60px'
-            }}>
-                <div style={{
-                    fontSize: '1.1rem',
-                    fontWeight: '600',
-                    color: 'var(--text-primary)',
-                    letterSpacing: '-0.3px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '8px'
-                }}>
+            <nav className="navbar">
+                <div className="navbar-logo">
                     <span style={{
                         width: '6px',
                         height: '6px',
                         background: 'var(--gold)',
                         borderRadius: '50%'
                     }}></span>
-                    Food Influencer
+                    <span className="navbar-logo-full">Food Influencer</span>
+                    <span className="navbar-logo-short">FI</span>
                 </div>
 
-                <div style={{ display: 'flex', gap: '2rem', alignItems: 'center' }}>
+                {/* Desktop Menu */}
+                <div className="navbar-menu">
                     <Link to="/fetch-influencers" style={{
                         color: 'var(--text-secondary)',
                         textDecoration: 'none',
@@ -134,7 +120,132 @@ const Navbar = () => {
                         </svg>
                     </button>
                 </div>
+
+                {/* Mobile Menu Button */}
+                <button
+                    onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                    className="navbar-mobile-toggle"
+                >
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <line x1="3" y1="12" x2="21" y2="12"></line>
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <line x1="3" y1="18" x2="21" y2="18"></line>
+                    </svg>
+                </button>
             </nav>
+
+            {/* Mobile Menu */}
+            {isMobileMenuOpen && (
+                <div className="mobile-menu">
+                    <div 
+                        onClick={() => setIsMobileMenuOpen(false)}
+                        style={{
+                            position: 'fixed',
+                            top: '60px',
+                            left: 0,
+                            right: 0,
+                            bottom: 0,
+                            background: 'rgba(0, 0, 0, 0.5)',
+                            zIndex: 998,
+                            animation: 'fadeIn 0.2s ease'
+                        }}
+                    />
+                    <div style={{
+                        position: 'fixed',
+                        top: '60px',
+                        left: 0,
+                        right: 0,
+                        background: 'var(--bg-secondary)',
+                        borderBottom: '1px solid var(--border)',
+                        boxShadow: 'var(--shadow-lg)',
+                        zIndex: 999,
+                        animation: 'slideDown 0.3s ease',
+                        padding: '1rem'
+                    }}>
+                        <div style={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            gap: '1rem'
+                        }}>
+                            <Link 
+                                to="/fetch-influencers" 
+                                onClick={() => setIsMobileMenuOpen(false)}
+                                style={{
+                                    color: 'var(--text-secondary)',
+                                    textDecoration: 'none',
+                                    fontSize: '1rem',
+                                    fontWeight: '500',
+                                    padding: '0.75rem',
+                                    borderRadius: '8px',
+                                    background: 'var(--bg-primary)',
+                                    border: '1px solid var(--border)'
+                                }}
+                            >
+                                Discover
+                            </Link>
+                            <Link 
+                                to="/saved-searches" 
+                                onClick={() => setIsMobileMenuOpen(false)}
+                                style={{
+                                    color: 'var(--text-secondary)',
+                                    textDecoration: 'none',
+                                    fontSize: '1rem',
+                                    fontWeight: '500',
+                                    padding: '0.75rem',
+                                    borderRadius: '8px',
+                                    background: 'var(--bg-primary)',
+                                    border: '1px solid var(--border)'
+                                }}
+                            >
+                                Saved Searches
+                            </Link>
+                            <Link 
+                                to="/saved-influencers" 
+                                onClick={() => setIsMobileMenuOpen(false)}
+                                style={{
+                                    color: 'var(--text-secondary)',
+                                    textDecoration: 'none',
+                                    fontSize: '1rem',
+                                    fontWeight: '500',
+                                    padding: '0.75rem',
+                                    borderRadius: '8px',
+                                    background: 'var(--bg-primary)',
+                                    border: '1px solid var(--border)'
+                                }}
+                            >
+                                Saved Influencers
+                            </Link>
+                            <button
+                                onClick={() => {
+                                    setIsMobileMenuOpen(false);
+                                    setIsProfileOpen(true);
+                                }}
+                                style={{
+                                    color: 'var(--text-secondary)',
+                                    textDecoration: 'none',
+                                    fontSize: '1rem',
+                                    fontWeight: '500',
+                                    padding: '0.75rem',
+                                    borderRadius: '8px',
+                                    background: 'var(--bg-primary)',
+                                    border: '1px solid var(--border)',
+                                    cursor: 'pointer',
+                                    textAlign: 'left',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: '0.5rem'
+                                }}
+                            >
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                    <circle cx="12" cy="7" r="4"></circle>
+                                </svg>
+                                Profile
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
 
             {/* Profile Sidebar Modal */}
             {isProfileOpen && (
@@ -155,20 +266,7 @@ const Navbar = () => {
                     />
                     
                     {/* Sidebar */}
-                    <div style={{
-                        position: 'fixed',
-                        top: 0,
-                        right: 0,
-                        bottom: 0,
-                        width: '320px',
-                        background: 'var(--bg-secondary)',
-                        borderLeft: '1px solid var(--border)',
-                        boxShadow: 'var(--shadow-xl)',
-                        zIndex: 1000,
-                        animation: 'slideInRight 0.3s ease',
-                        display: 'flex',
-                        flexDirection: 'column'
-                    }}>
+                    <div className="profile-sidebar">
                         {/* Header */}
                         <div style={{
                             padding: '1.5rem',

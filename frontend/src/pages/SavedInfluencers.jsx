@@ -84,7 +84,9 @@ const SavedInfluencers = () => {
                     marginBottom: '2rem',
                     display: 'flex',
                     justifyContent: 'space-between',
-                    alignItems: 'center'
+                    alignItems: 'center',
+                    flexWrap: 'wrap',
+                    gap: '0.5rem'
                 }}>
                     <h2 style={{ margin: 0 }}>Saved Influencers</h2>
                     <span style={{ 
@@ -108,11 +110,7 @@ const SavedInfluencers = () => {
                         </p>
                     </div>
                 ) : (
-                    <div style={{ 
-                        display: 'grid', 
-                        gridTemplateColumns: 'repeat(auto-fill, minmax(350px, 1fr))', 
-                        gap: '1.5rem' 
-                    }}>
+                    <div className="influencers-grid">
                         {influencers.map((inf) => (
                             <div 
                                 key={inf.id} 
@@ -171,7 +169,8 @@ const SavedInfluencers = () => {
                                     padding: '1rem',
                                     background: 'var(--bg-primary)',
                                     borderRadius: '8px',
-                                    border: '1px solid var(--border)'
+                                    border: '1px solid var(--border)',
+                                    flexWrap: 'wrap'
                                 }}>
                                     <div>
                                         <p style={{
@@ -233,7 +232,8 @@ const SavedInfluencers = () => {
                                     alignItems: 'center',
                                     paddingTop: '1rem',
                                     borderTop: '1px solid var(--border)',
-                                    gap: '0.75rem'
+                                    gap: '0.75rem',
+                                    flexWrap: 'wrap'
                                 }}>
                                     <span style={{
                                         fontSize: '0.85rem',
@@ -245,7 +245,10 @@ const SavedInfluencers = () => {
                                             year: 'numeric'
                                         })}
                                     </span>
-                                    <div style={{ display: 'flex', gap: '0.5rem' }}>
+                                    <div style={{ 
+                                        display: 'flex', 
+                                        gap: '0.5rem'
+                                    }}>
                                         <button
                                             onClick={() => handleViewDetails(inf)}
                                             style={{
@@ -299,36 +302,11 @@ const SavedInfluencers = () => {
             {showDetailModal && selectedInfluencer && (
                 <div 
                     onClick={closeDetailModal}
-                    style={{
-                        position: 'fixed',
-                        top: 0,
-                        left: 0,
-                        right: 0,
-                        bottom: 0,
-                        background: 'rgba(0, 0, 0, 0.75)',
-                        zIndex: 10000,
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        padding: '2rem',
-                        overflowY: 'auto',
-                        animation: 'fadeIn 0.2s ease'
-                    }}
+                    className="detail-modal-overlay"
                 >
                     <div 
                         onClick={(e) => e.stopPropagation()}
-                        style={{
-                            background: 'var(--bg-secondary)',
-                            border: '1px solid var(--border)',
-                            borderRadius: '20px',
-                            maxWidth: '700px',
-                            width: '100%',
-                            maxHeight: '90vh',
-                            overflowY: 'auto',
-                            boxShadow: '0 25px 70px rgba(0, 0, 0, 0.6)',
-                            animation: 'slideUp 0.3s ease',
-                            position: 'relative'
-                        }}
+                        className="detail-modal-content"
                     >
                         {/* Close Button */}
                         <button
@@ -396,14 +374,7 @@ const SavedInfluencers = () => {
                         </div>
 
                         {/* Stats Section */}
-                        <div style={{
-                            display: 'grid',
-                            gridTemplateColumns: selectedInfluencer.platform === 'INSTAGRAM' ? 'repeat(3, 1fr)' : 'repeat(2, 1fr)',
-                            gap: '1rem',
-                            padding: '2rem',
-                            background: 'var(--bg-primary)',
-                            borderBottom: '1px solid var(--border)'
-                        }}>
+                        <div className={`detail-modal-stats ${selectedInfluencer.platform === 'YOUTUBE' ? 'two-col' : ''}`}>
                             <div style={{ textAlign: 'center' }}>
                                 <p style={{
                                     fontSize: '0.75rem',
@@ -486,11 +457,7 @@ const SavedInfluencers = () => {
                             )}
 
                             {/* Additional Info Grid */}
-                            <div style={{
-                                display: 'grid',
-                                gridTemplateColumns: 'repeat(2, 1fr)',
-                                gap: '1.5rem'
-                            }}>
+                            <div className="detail-modal-info-grid">
                                 {selectedInfluencer.email && (
                                     <div>
                                         <p style={{
@@ -663,7 +630,7 @@ const SavedInfluencers = () => {
                         {/* Footer */}
                         <div style={{
                             padding: '1.5rem 2rem',
-                            borderTop: '1px solid var(--border)',
+                            borderBottom: '1px solid var(--border)',
                             background: 'var(--bg-primary)'
                         }}>
                             <button

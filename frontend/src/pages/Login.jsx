@@ -32,26 +32,9 @@ const Login = () => {
     };
 
     return (
-        <div style={{
-            display: 'flex',
-            minHeight: '100vh',
-            maxHeight: '100vh',
-            height: '100vh',
-            background: 'var(--bg-primary)',
-            overflow: 'hidden',
-            position: 'fixed',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0
-        }}>
+        <div className="auth-split-container">
             {/* Left Side - Image */}
-            <div style={{
-                flex: 1,
-                position: 'relative',
-                overflow: 'hidden',
-                background: '#1a1f2e'
-            }}>
+            <div className="auth-image-side">
                 <img 
                     src="/login-image.jpg.jpg" 
                     alt="Food Influencer" 
@@ -63,7 +46,6 @@ const Login = () => {
                         display: 'block'
                     }} 
                 />
-                {/* Optional overlay for better text readability if needed */}
                 <div style={{
                     position: 'absolute',
                     top: 0,
@@ -76,52 +58,13 @@ const Login = () => {
             </div>
 
             {/* Right Side - Login Form with Background */}
-            <div style={{
-                flex: 1,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                padding: '3rem',
-                position: 'relative',
-                overflow: 'auto'
-            }}>
-                {/* Background Image */}
-                <div style={{
-                    position: 'absolute',
-                    top: 0,
-                    left: 0,
-                    right: 0,
-                    bottom: 0,
-                    zIndex: 0
-                }}>
-                    <img 
-                        src="/login-bg.png.jpg" 
-                        alt="Background" 
-                        style={{ 
-                            width: '100%', 
-                            height: '100%', 
-                            objectFit: 'cover',
-                            objectPosition: 'center',
-                            opacity: 0.35
-                        }} 
-                    />
+            <div className="auth-form-side">
+                <div className="auth-bg-image">
+                    <img src="/login-bg.png.jpg" alt="Background" />
                 </div>
 
-                {/* Form Container */}
-                <div style={{
-                    width: '100%',
-                    maxWidth: '420px',
-                    position: 'relative',
-                    zIndex: 1
-                }}>
-                    <div style={{
-                        background: 'var(--bg-secondary)',
-                        border: '1px solid var(--border)',
-                        borderRadius: '16px',
-                        padding: '40px',
-                        boxShadow: 'var(--shadow-xl)',
-                        backdropFilter: 'blur(10px)'
-                    }}>
+                <div className="auth-form-container">
+                    <div className="auth-form-card">
                         <h2 style={{
                             marginBottom: '8px',
                             fontSize: '1.8rem',
