@@ -22,6 +22,14 @@ function Register() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    
+    // For email, check if user typed uppercase and show warning
+    if (name === 'email' && value !== value.toLowerCase()) {
+      setErrors(prev => ({ ...prev, email: 'Email will be converted to lowercase' }));
+    } else if (name === 'email' && errors.email === 'Email will be converted to lowercase') {
+      setErrors(prev => ({ ...prev, email: '' }));
+    }
+    
     // Convert email to lowercase automatically
     const processedValue = name === 'email' ? value.toLowerCase() : value;
     
@@ -29,7 +37,8 @@ function Register() {
       ...prev,
       [name]: processedValue
     }));
-    if (errors[name]) {
+    
+    if (errors[name] && errors[name] !== 'Email will be converted to lowercase') {
       setErrors(prev => ({ ...prev, [name]: '' }));
     }
     if (apiError) {
@@ -52,9 +61,8 @@ function Register() {
       newErrors.email = 'Email is required';
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
       newErrors.email = 'Email is invalid';
-    } else if (formData.email !== formData.email.toLowerCase()) {
-      newErrors.email = 'Email must be in lowercase';
     }
+    // No need to check lowercase here since handleChange already converts it
 
     if (!formData.password) {
       newErrors.password = 'Password is required';
