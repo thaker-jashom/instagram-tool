@@ -22,9 +22,12 @@ function Register() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    // Convert email to lowercase automatically
+    const processedValue = name === 'email' ? value.toLowerCase() : value;
+    
     setFormData(prev => ({
       ...prev,
-      [name]: value
+      [name]: processedValue
     }));
     if (errors[name]) {
       setErrors(prev => ({ ...prev, [name]: '' }));
@@ -49,6 +52,8 @@ function Register() {
       newErrors.email = 'Email is required';
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
       newErrors.email = 'Email is invalid';
+    } else if (formData.email !== formData.email.toLowerCase()) {
+      newErrors.email = 'Email must be in lowercase';
     }
 
     if (!formData.password) {
@@ -175,7 +180,7 @@ function Register() {
           {/* Form Container */}
           <div style={{
             width: '100%',
-            maxWidth: '600px',
+            maxWidth: '440px',
             position: 'relative',
             zIndex: 1,
             margin: '0 auto'
@@ -183,35 +188,35 @@ function Register() {
             <div style={{
               background: 'var(--bg-secondary)',
               border: '1px solid var(--border)',
-              borderRadius: '16px',
-              padding: '2.5rem',
+              borderRadius: '14px',
+              padding: '1.5rem',
               boxShadow: 'var(--shadow-xl)',
               backdropFilter: 'blur(10px)'
             }}>
               <div style={{
                 textAlign: 'center',
-                marginBottom: '2rem'
+                marginBottom: '1.25rem'
               }}>
                 <h1 style={{
-                  fontSize: '1.8rem',
+                  fontSize: '1.6rem',
                   fontWeight: '600',
                   color: 'var(--text-primary)',
-                  marginBottom: '8px',
+                  marginBottom: '6px',
                   letterSpacing: '-0.5px'
                 }}>Create Account</h1>
                 <p style={{
                   color: 'var(--text-muted)',
-                  fontSize: '0.9rem'
+                  fontSize: '0.85rem'
                 }}>Join Food Influencer Discovery Platform</p>
                 <div style={{
-                  height: '3px',
+                  height: '2px',
                   background: 'linear-gradient(90deg, var(--gold) 0%, transparent 100%)',
-                  marginTop: '16px',
+                  marginTop: '12px',
                   borderRadius: '2px'
                 }}></div>
               </div>
 
-              {apiError && <div className="error-message" style={{ marginBottom: '1rem' }}>{apiError}</div>}
+              {apiError && <div className="error-message" style={{ marginBottom: '0.75rem' }}>{apiError}</div>}
 
               <form onSubmit={handleSubmit} className="auth-form">
                 <div className="form-row">
@@ -287,7 +292,9 @@ function Register() {
                         alignItems: 'center',
                         justifyContent: 'center',
                         color: 'var(--text-muted)',
-                        transition: 'color 0.2s'
+                        transition: 'color 0.2s',
+                        width: '24px',
+                        height: '24px'
                       }}
                     >
                       {showPassword ? (
@@ -335,7 +342,9 @@ function Register() {
                         alignItems: 'center',
                         justifyContent: 'center',
                         color: 'var(--text-muted)',
-                        transition: 'color 0.2s'
+                        transition: 'color 0.2s',
+                        width: '24px',
+                        height: '24px'
                       }}
                     >
                       {showConfirmPassword ? (
@@ -360,11 +369,11 @@ function Register() {
 
                 <div style={{ 
                   textAlign: 'center', 
-                  marginTop: '24px', 
-                  paddingTop: '24px', 
+                  marginTop: '1rem', 
+                  paddingTop: '1rem', 
                   borderTop: '1px solid var(--border)' 
                 }}>
-                  <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>
+                  <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>
                     Already have an account? <Link to="/login" style={{ 
                       color: 'var(--gold)', 
                       textDecoration: 'none',

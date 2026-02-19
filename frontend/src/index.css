@@ -303,34 +303,34 @@ a {
 .auth-form {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 14px;
 }
 
 .form-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 16px;
+  gap: 12px;
 }
 
 .form-group {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
 }
 
 .form-group label {
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   font-weight: 500;
   color: var(--text-secondary);
 }
 
 .form-group input {
-  padding: 12px 16px;
+  padding: 10px 14px;
   background: var(--bg-primary);
   border: 1px solid var(--border);
   border-radius: 8px;
   color: var(--text-primary);
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   transition: all 0.2s ease;
 }
 
@@ -349,20 +349,20 @@ a {
 }
 
 .error-message {
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   color: #ef4444;
-  margin-top: -4px;
+  margin-top: -2px;
 }
 
 .auth-button {
   width: 100%;
-  padding: 12px;
-  margin-top: 8px;
+  padding: 11px;
+  margin-top: 4px;
   background: var(--gold);
   color: var(--bg-primary);
   border: none;
   border-radius: 8px;
-  font-size: 1rem;
+  font-size: 0.95rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;

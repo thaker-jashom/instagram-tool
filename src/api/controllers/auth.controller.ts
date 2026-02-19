@@ -18,9 +18,12 @@ export const registerController = async (req: Request, res: Response) => {
             });
         }
 
+        // Convert email to lowercase
+        const normalizedEmail = email.toLowerCase().trim();
+
         // Email validation
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(email)) {
+        if (!emailRegex.test(normalizedEmail)) {
             return res.status(400).json({
                 status: 'error',
                 message: 'Invalid email format'
@@ -37,7 +40,7 @@ export const registerController = async (req: Request, res: Response) => {
 
         // Check if user already exists
         const existingUser = await prisma.user.findUnique({
-            where: { email }
+            where: { email: normalizedEmail }
         });
 
         if (existingUser) {
@@ -53,7 +56,7 @@ export const registerController = async (req: Request, res: Response) => {
         // Create user (firstName and lastName are accepted but not stored in current schema)
         const user = await prisma.user.create({
             data: {
-                email,
+                email: normalizedEmail,
                 password: hashedPassword
             }
         });
@@ -65,7 +68,7 @@ export const registerController = async (req: Request, res: Response) => {
             { expiresIn: '7d' }
         );
 
-        console.log('✅ REGISTRATION SUCCESS:', email);
+        console.log('✅ REGISTRATION SUCCESS:', normalizedEmail);
 
         return res.status(201).json({
             status: 'success',
@@ -138,9 +141,13 @@ export const loginController = async (req: Request, res: Response) => {
         console.log('LOGIN BODY >>>', req.body);
 
         const { email, password } = req.body;
-        console.log('EMAIL RECEIVED >>>', email);
+        
+        // Convert email to lowercase
+        const normalizedEmail = email?.toLowerCase().trim();
+        
+        console.log('EMAIL RECEIVED >>>', normalizedEmail);
 
-        if (!email || !password) {
+        if (!normalizedEmail || !password) {
             console.log('❌ Email or password missing');
             return res.status(400).json({
                 status: 'error',
@@ -149,7 +156,7 @@ export const loginController = async (req: Request, res: Response) => {
         }
 
         const user = await prisma.user.findUnique({
-            where: { email }
+            where: { email: normalizedEmail }
         });
 
         console.log('USER FOUND >>>', user);

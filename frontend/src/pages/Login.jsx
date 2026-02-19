@@ -9,13 +9,19 @@ const Login = () => {
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
+    const handleEmailChange = (e) => {
+        // Convert email to lowercase automatically
+        setEmail(e.target.value.toLowerCase());
+        setError(null);
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError(null);
         setLoading(true);
 
         try {
-            const response = await api.post('/auth/login', { email, password });
+            const response = await api.post('/auth/login', { email: email.toLowerCase(), password });
             localStorage.setItem("token", response.data.token);
             navigate('/fetch-influencers');
         } catch (err) {
@@ -144,7 +150,7 @@ const Login = () => {
                                     type="email"
                                     required
                                     value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
+                                    onChange={handleEmailChange}
                                     placeholder="Enter your email"
                                 />
                             </div>
