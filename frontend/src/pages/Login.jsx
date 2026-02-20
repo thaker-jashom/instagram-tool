@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import api from '../api/axios';
 
@@ -8,6 +8,11 @@ const Login = () => {
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
+
+    // Clear any existing token when component mounts
+    useEffect(() => {
+        localStorage.removeItem('token');
+    }, []);
 
     const handleEmailChange = (e) => {
         // Convert email to lowercase automatically
@@ -24,6 +29,9 @@ const Login = () => {
         e.preventDefault();
         setError(null);
         setLoading(true);
+
+        // Clear any old token before attempting login
+        localStorage.removeItem('token');
 
         try {
             const response = await api.post('/auth/login', { email: email.toLowerCase(), password });
