@@ -27,6 +27,8 @@ const Login = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        e.stopPropagation();
+        
         setError(null);
         setLoading(true);
 
@@ -53,6 +55,8 @@ const Login = () => {
             setLoading(false);
             console.log('🔵 Login attempt complete');
         }
+        
+        return false;
     };
 
     return (
@@ -110,7 +114,7 @@ const Login = () => {
 
                         {error && <div className="error-message">{error}</div>}
 
-                        <form onSubmit={handleSubmit}>
+                        <form onSubmit={handleSubmit} method="post" action="javascript:void(0);">
                             <div className="form-group">
                                 <label>Email Address</label>
                                 <input
@@ -119,6 +123,7 @@ const Login = () => {
                                     value={email}
                                     onChange={handleEmailChange}
                                     placeholder="Enter your email"
+                                    autoComplete="email"
                                 />
                             </div>
 
@@ -130,6 +135,7 @@ const Login = () => {
                                     value={password}
                                     onChange={handlePasswordChange}
                                     placeholder="Enter your password"
+                                    autoComplete="current-password"
                                 />
                             </div>
 
