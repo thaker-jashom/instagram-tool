@@ -15,6 +15,11 @@ const Login = () => {
         setError(null);
     };
 
+    const handlePasswordChange = (e) => {
+        setPassword(e.target.value);
+        setError(null);
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError(null);
@@ -25,7 +30,11 @@ const Login = () => {
             localStorage.setItem("token", response.data.token);
             navigate('/fetch-influencers');
         } catch (err) {
-            setError(err.response?.data?.message || 'Login failed');
+            const errorMessage = err.response?.data?.message || 'Login failed. Please try again.';
+            setError(errorMessage === 'Invalid credentials' 
+                ? 'Invalid email or password. Please try again.' 
+                : errorMessage
+            );
         } finally {
             setLoading(false);
         }
@@ -104,7 +113,7 @@ const Login = () => {
                                     type="password"
                                     required
                                     value={password}
-                                    onChange={(e) => setPassword(e.target.value)}
+                                    onChange={handlePasswordChange}
                                     placeholder="Enter your password"
                                 />
                             </div>
