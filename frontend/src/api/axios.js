@@ -18,8 +18,13 @@ api.interceptors.request.use(
 
 // Handle expired token - but NOT for login/register pages
 api.interceptors.response.use(
-  (response) => response,
+  (response) => {
+    console.log('✅ API Response:', response.config.url, response.status);
+    return response;
+  },
   (error) => {
+    console.error('❌ API Error:', error.config?.url, error.response?.status);
+    console.error('❌ Full error:', error);
     // Don't do anything on 401 errors - let the component handle it
     // The redirect will be handled by ProtectedRoute component
     return Promise.reject(error);

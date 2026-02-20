@@ -33,18 +33,25 @@ const Login = () => {
         // Clear any old token before attempting login
         localStorage.removeItem('token');
 
+        console.log('🔵 Attempting login with:', email);
+
         try {
             const response = await api.post('/auth/login', { email: email.toLowerCase(), password });
+            console.log('✅ Login successful:', response.data);
             localStorage.setItem("token", response.data.token);
             navigate('/fetch-influencers');
         } catch (err) {
+            console.error('❌ Login failed:', err);
+            console.error('❌ Error response:', err.response);
             const errorMessage = err.response?.data?.message || 'Login failed. Please try again.';
             setError(errorMessage === 'Invalid credentials' 
                 ? 'Invalid email or password. Please try again.' 
                 : errorMessage
             );
+            console.log('🔴 Error set:', errorMessage);
         } finally {
             setLoading(false);
+            console.log('🔵 Login attempt complete');
         }
     };
 
