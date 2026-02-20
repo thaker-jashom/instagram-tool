@@ -10,11 +10,7 @@ import youtubeFetchRoutes from './api/routes/youtubeFetch.routes';
 
 const app = express();
 
-/* 🔥 REQUIRED BODY PARSERS */
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
-/* CORS Configuration */
+/* CORS Configuration - MUST BE BEFORE BODY PARSERS */
 const allowedOrigins = [
     'http://localhost:5173',
     'http://localhost:3000',
@@ -41,8 +37,17 @@ app.use(cors({
     },
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization']
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    preflightContinue: false,
+    optionsSuccessStatus: 204
 }));
+
+/* Handle preflight requests explicitly */
+app.options('*', cors());
+
+/* 🔥 REQUIRED BODY PARSERS */
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/influencers', influencerRoutes);
@@ -72,6 +77,15 @@ app.get('/', (_req: express.Request, res: express.Response) => {
 /* HEALTH CHECK */
 app.get('/health', (_req: express.Request, res: express.Response) => {
     res.json({ status: 'ok' });
+});
+
+/* Global Error Handler */
+app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
+    console.error('Global error handler:', err);
+    res.status(err.status || 500).json({
+        status: 'error',
+        message: err.message || 'Internal server error'
+    });
 });
 
 export default app;

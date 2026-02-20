@@ -1,17 +1,23 @@
-# Food Influencer Discovery System
+# 🍽️ Food Influencer Discovery Platform
 
-A full-stack application for discovering and managing food influencers from YouTube and Instagram.
+A premium full-stack application for discovering and managing food influencers across Instagram and YouTube platforms.
 
-## Features
+## ✨ Features
 
-- 🎥 **YouTube Discovery** - Find food channels using Google's YouTube Data API
-- 📸 **Instagram Discovery** - Find food influencers using Instagram120 API
-- 🔐 **Authentication** - Secure JWT-based user authentication
-- 💾 **Save & Manage** - Save searches and favorite influencers
-- 🔍 **Advanced Filters** - Filter by followers, location, and more
-- 📊 **Database** - PostgreSQL with Prisma ORM
+- 🔍 **Smart Search** - Discover influencers on Instagram and YouTube
+- 💾 **Save & Organize** - Save favorite influencers to your account
+- 📊 **Detailed Analytics** - View comprehensive influencer statistics
+- 🔐 **Secure Authentication** - JWT-based user authentication
+- 📱 **Fully Responsive** - Beautiful design on mobile, tablet, and desktop
+- 🎨 **Premium UI** - Dark theme with gold accents and smooth animations
+- 👤 **Profile Management** - User profile with account information
 
-## Tech Stack
+## 🚀 Live Demo
+
+- **Backend:** https://instagram-tool-1.onrender.com
+- **Frontend:** Deploy on Vercel
+
+## 🛠️ Tech Stack
 
 ### Backend
 - Node.js + TypeScript
@@ -21,79 +27,62 @@ A full-stack application for discovering and managing food influencers from YouT
 - JWT Authentication
 
 ### Frontend
-- React + Vite
-- Axios for API calls
-- React Router
+- React 18
+- Vite
+- React Router v6
+- Axios
 
 ### APIs
 - YouTube Data API v3 (Google)
 - Instagram120 API (RapidAPI)
 
-## Quick Start
+## 📋 Quick Start
 
-### 1. Install Dependencies
-```bash
-npm install
-cd frontend && npm install && cd ..
-```
+### For Development
+See [SETUP_GUIDE.md](./SETUP_GUIDE.md) for detailed local setup instructions.
 
-### 2. Setup Database
-```bash
-# Create PostgreSQL database
-# Update DATABASE_URL in .env
+### For Deployment
+See [FINAL_DEPLOYMENT_CHECKLIST.md](./FINAL_DEPLOYMENT_CHECKLIST.md) for production deployment.
 
-npx prisma db push
-npx prisma generate
-```
-
-### 3. Configure API Keys
-Create `.env` file (see `.env.example`):
-```env
-YOUTUBE_API_KEY=your_youtube_key
-RAPIDAPI_KEY=your_rapidapi_key
-RAPIDAPI_INSTAGRAM_HOST=instagram120.p.rapidapi.com
-DATABASE_URL=your_database_url
-JWT_SECRET=your_secret
-```
-
-### 4. Create User
-```bash
-npm run create:user
-```
-
-### 5. Run Application
-```bash
-# Backend
-npm run dev
-
-# Frontend (in another terminal)
-cd frontend && npm run dev
-```
-
-Visit http://localhost:5173
-
-## Default Login
+## 🔑 Default Login
 
 - **Email:** test@foodai.com
 - **Password:** Test@123
 
-## Documentation
+## 📚 Documentation
 
-- [Setup Guide](SETUP_GUIDE.md) - Detailed setup instructions
-- [Success Guide](SUCCESS_INSTAGRAM_WORKING.md) - API configuration details
-- [Quick Start](QUICK_START.md) - Quick reference guide
+- [FINAL_DEPLOYMENT_CHECKLIST.md](./FINAL_DEPLOYMENT_CHECKLIST.md) - Complete deployment guide
+- [SETUP_GUIDE.md](./SETUP_GUIDE.md) - Local development setup
+- [API_SETUP_COMPLETE.md](./API_SETUP_COMPLETE.md) - API documentation
+- [DESIGN_ENHANCEMENT.md](./DESIGN_ENHANCEMENT.md) - Design system details
+- [RESPONSIVE_COMPLETE.md](./RESPONSIVE_COMPLETE.md) - Responsive design guide
+- [TEST_API.html](./TEST_API.html) - Interactive API tester
 
-## API Endpoints
+## 🔌 API Endpoints (13 Total)
 
-| Endpoint | Method | Description |
-|----------|--------|-------------|
-| `/api/v1/auth/login` | POST | User login |
-| `/api/v1/youtube/fetch` | POST | Fetch YouTube influencers |
-| `/api/v1/instagram/fetch` | POST | Fetch Instagram influencers |
-| `/api/v1/saved-searches` | GET/POST | Manage saved searches |
-| `/api/v1/saved-influencers` | GET/POST | Manage saved influencers |
+### Authentication
+- `POST /api/v1/auth/register` - Register new user
+- `POST /api/v1/auth/login` - Login user
+- `GET /api/v1/auth/me` - Get current user
 
-## Scripts
+### Influencers
+- `POST /api/v1/instagram/fetch` - Fetch Instagram influencers
+- `POST /api/v1/youtube/fetch` - Fetch YouTube influencers
+
+### Saved Influencers
+- `POST /api/v1/saved-influencers/bulk` - Save multiple influencers
+- `GET /api/v1/saved-influencers` - Get saved influencers
+- `DELETE /api/v1/saved-influencers/:influencerId` - Remove saved influencer
+
+### Saved Searches
+- `POST /api/v1/saved-searches` - Save a search
+- `GET /api/v1/saved-searches` - Get saved searches
+
+### Health
+- `GET /health` - Health check
+- `GET /` - API info
+
+## 💻 Scripts
 
 ```bash
 npm run dev              # Start development server
@@ -104,7 +93,7 @@ npm run db:push          # Push database schema
 npm run db:studio        # Open Prisma Studio
 ```
 
-## Project Structure
+## 📁 Project Structure
 
 ```
 ├── src/
@@ -119,12 +108,29 @@ npm run db:studio        # Open Prisma Studio
 └── logs/                # Application logs
 ```
 
-## API Quotas
+## ⚡ API Quotas
 
 - **YouTube:** 10,000 units/day (free)
-- **Instagram:** 100 requests/month (free tier)
+- **Instagram120:** 100 requests/month (free tier)
 
-## Contributing
+## 🎨 Design Features
+
+- Premium dark theme with navy and gold color scheme
+- Smooth animations and micro-interactions
+- Glassmorphism effects
+- Responsive grid layouts
+- Card-based UI components
+- Interactive modals and sidebars
+- Custom scrollbar styling
+
+## 📱 Responsive Breakpoints
+
+- Desktop: > 1024px
+- Tablet: 768px - 1024px
+- Mobile: < 768px
+- Small Mobile: < 480px
+
+## 🤝 Contributing
 
 1. Fork the repository
 2. Create your feature branch
@@ -132,13 +138,18 @@ npm run db:studio        # Open Prisma Studio
 4. Push to the branch
 5. Create a Pull Request
 
-## License
+## 📄 License
 
 ISC
 
-## Support
+## 💡 Support
 
-For issues or questions, check:
-- [Setup Guide](SETUP_GUIDE.md)
-- Application logs in `logs/`
-- API dashboards for quota status
+For issues or questions:
+- Check [FINAL_DEPLOYMENT_CHECKLIST.md](./FINAL_DEPLOYMENT_CHECKLIST.md) for deployment help
+- Use [TEST_API.html](./TEST_API.html) to test API endpoints
+- Review application logs in `logs/` directory
+- Check API dashboards for quota status
+
+---
+
+**Built with ❤️ for food influencer discovery**
